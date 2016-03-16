@@ -81,8 +81,9 @@ def countCustomersByRegion(name):
 
 def countCustomersByCountry(name):
     """Return a count of the number of items in the category"""
-    return session.query(CustomerItem).join(CountryItem)\
-        .filter(CountryItem.code == name).count()
+    return session.query(CustomerItem).join(CustomerItem\
+                                            .country_code, CountryItem.code)
+                                            .filter(CountryItem.code == name).count()
 
 
 def getProductOwner(name):

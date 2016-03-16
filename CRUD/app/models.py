@@ -45,7 +45,7 @@ class CountryItem(Base):
     """Countries and Regions"""
     __tablename__ = 'customer_codes'
     code_id = Column(Integer, primary_key=True)
-    code = Column(String(80), ForeignKey('country.country_code'))
+    code = Column(String(80), nullable=False, unique=True)
     country = Column(String(255))
     SupportRegion = Column(String(255))
     #category_id = Column(Integer, ForeignKey('category.category_id',
