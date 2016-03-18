@@ -27,6 +27,10 @@ UPLOAD_FOLDER = '/vagrant/catalog/app/static/uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'JPG'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+DEBUG = True
+PIN_SECURITY = False
+TRAP_BAD_REQUEST_ERRORS = True
+TRAP_HTTP_EXCEPTIONS = True
 
 
 def login_required(f):
@@ -75,16 +79,15 @@ def products():
     Users can edit, create, or delete only the items that they created
     """
     customerItems = []
-    countries = access.getCountries()
-    for country in countries:
-        country.count = access.countCustomersByCountry(country.code)
-        customerItems += access.getCustomerCountCountry(country.code, 15)
-    for customer in customerItems:
-        customer.country_name = access.getCountry(customer.code)
+    regions = access.getRegions()
+    for region in regions:
+        region.count = access.countCustomersByRegion(region.SupportRegion)
+        # region.countOf = count
+        customerItems += access.getCustomerCountCountry(region.SupportRegion, 15)
         #if product.product_image:
         #    product.product_url = 'uploads/' + product.product_image
-    return render_template('products.html', categories=countries,
-                           products=customerItems)
+    return render_template('regions.html', regions=regions,
+                           customers=customerItems)
 
 
 # Switch product global view to category, then add counters per category

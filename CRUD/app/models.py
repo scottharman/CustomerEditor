@@ -53,6 +53,27 @@ class CountryItem(Base):
 
 
 
+class CustomerCountry(Base):
+    """The Customer Country View"""
+    __tablename__ = 'customer_country'
+    customer_id = Column(Integer, primary_key=True)
+    address_code = Column(String(50), nullable=False, unique=True)
+    customer_code = Column(String(120), nullable=True)
+    customer_name = Column(String(120), nullable=False)
+    account_id = Column(String(120), nullable=True)
+    account_name = Column(String(90), nullable=False)
+    CustomerNote = Column(String(512), nullable=True)
+    renewal_date = Column(DateTime(timezone=True))
+    contract_type = Column(String(255), nullable=True)
+    country_code = Column(String(10), nullable=True)
+    CCGroup = Column(String(45), nullable=True)
+    AgentStatus = Column(String(255), nullable=True)
+    comments = Column(String(255), nullable=True)
+    isDummy  = Column(Integer, nullable=True)
+    SFDC = Column(String(255), nullable=True)
+    customer_address = Column(String(255), nullable=True)
+    country = Column(String(255))
+    SupportRegion = Column(String(255))
 
 class User(Base):
     """User class - basic authentication"""
@@ -79,4 +100,5 @@ class User(Base):
 
 
 engine = create_engine("mysql+pymysql://jirauser:jirapass@10.54.1.195/jira_customers")
+# create_engine("mysql+mysqlconnector://jirauser:jirapass@10.54.1.195/jira_customers")
 Base.metadata.create_all(engine)

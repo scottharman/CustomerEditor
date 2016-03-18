@@ -2,6 +2,8 @@ apt-get -qqy update
 #apt-get -qqy install postgresql python-psycopg2
 apt-get -qqy install python-flask python-sqlalchemy
 apt-get -qqy install python-pip
+wget http://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.3-1ubuntu14.04_all.deb
+sudo dpkg -i mysql-connector-python_2.1.3-1ubuntu14.04_all.deb
 sudo apt-get -qqy install python-dev
 pip install bleach
 pip install oauth2client
