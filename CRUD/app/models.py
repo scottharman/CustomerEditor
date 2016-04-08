@@ -99,6 +99,6 @@ class User(Base):
         return check_password_hash(self.password, password)
 
 
-engine = create_engine("mysql+pymysql://jirauser:jirapass@10.54.1.195/jira_customers")
-# create_engine("mysql+mysqlconnector://jirauser:jirapass@10.54.1.195/jira_customers")
+engine = create_engine("mysql+mysqlconnector://jirauser:jirapass@10.54.1.195/jira_customers")
+#create_engine("mysql+pymysql://jirauser:jirapass@10.54.1.195/jira_customers")
 Base.metadata.create_all(engine)

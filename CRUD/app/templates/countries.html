@@ -9,15 +9,14 @@
 {% endblock %}
 {% block content %}
 
-
-{% for region in regions %}
+{% for country in countries %}
 <div class="box">
 <div class="columnleft"><ul style="list-style-type:none">
-<ul><a href="{{ url_for('regions', name = region.SupportRegion) }}">{{ region.SupportRegion }} ({{region.count}})</ul>
+<ul>{{country.country}} - {{ country.SupportRegion }} ({{country.count}})</ul>
 </div>
 <div class="columnright">
 <dl>
-{% for customer in customers if customer.SupportRegion == region.SupportRegion %}
+{% for customer in customers if customer.country == country.country %}
 
  <dt>{{ customer.account_name }} ({{customer.country}})&nbsp|&nbsp Account ID: {{customer.account_id}} CustomerCode/Address Code: {{customer.customer_code}}, {{customer.address_code}} </dt>
  <dd>

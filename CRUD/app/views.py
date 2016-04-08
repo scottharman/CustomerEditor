@@ -70,7 +70,7 @@ def allowed_file(filename):
 
 @app.route('/')
 @app.route('/customers')
-def products():
+def customers():
     """Returns the last 15 products for each category"""
     """Should have two panels - LHS lists categories, and initial RHS view lists
     most recent products across all categories plus price and category
@@ -83,7 +83,7 @@ def products():
     for region in regions:
         region.count = access.countCustomersByRegion(region.SupportRegion)
         # region.countOf = count
-        customerItems += access.getCustomerCountCountry(region.SupportRegion, 15)
+        customerItems += access.getCustomerCountRegion(region.SupportRegion, 15)
         #if product.product_image:
         #    product.product_url = 'uploads/' + product.product_image
     return render_template('regions.html', regions=regions,
@@ -91,10 +91,10 @@ def products():
 
 
 # Switch product global view to category, then add counters per category
-@app.route('/catalog')
-@app.route('/catalog/')
-@app.route('/catalog/<path:name>/items')
-def categories(name=''):
+@app.route('/region')
+@app.route('/region/')
+@app.route('/region/<path:name>/items')
+def regions(name=''):
     """Returns the last 5 products for each category"""
     """Should have two panels - LHS lists categories, and initial RHS view lists
      most recent products across all categories plus price and category
@@ -102,22 +102,19 @@ def categories(name=''):
      the product page.
     Users can edit, create, or delete only the items that they created
     """
-    productItems = []
-    categories = access.getCategories()
+    customerItems = []
     if name != '':
-        categories = access.getCategoryByName(name)
-        productItems = access.getProductCategoryByName(name)
+        countries = access.getCountriesByRegion(name)
     else:
-        for category in categories:
-            productItems += access.getProductCategory(category.category_id)
-    for product in productItems:
-        product.category = access.getCategory(product.category_id)
-        if product.product_image:
-            product.product_url = 'uploads/' + product.product_image
-    for category in categories:
-        category.count = access.countItemsByCategory(category.category_name)
-    return render_template('products.html', categories=categories,
-                           products=productItems)
+        countries = access.getCountries()
+    for country in countries:
+        country.count = access.countCustomersByCountry(country.country)
+        # region.countOf = count
+        customerItems += access.getCustomerByCountry(country.country)
+        #if product.product_image:
+        #    product.product_url = 'uploads/' + product.product_image
+    return render_template('countries.html', countries=countries,
+                           customers=customerItems)
 
 
 @app.route('/catalog.json')

@@ -6,11 +6,25 @@ DBsession = sessionmaker(bind=engine)
 session = DBsession()
 
 
-def getCustomerCountCountry(region, count):
+def getCustomerCountCountry(country, count):
+    """Return count of product for specific category"""
+    customers = session.query(CustomerCountry).filter(CustomerCountry.country == country).limit(count)
+    return customers
+
+def getCustomerCountRegion(region, count):
     """Return count of product for specific category"""
     customers = session.query(CustomerCountry).filter(CustomerCountry.SupportRegion == region).limit(count)
     return customers
 
+def getCustomerByRegion(region):
+    """Return count of product for specific category"""
+    customers = session.query(CustomerCountry).filter(CustomerCountry.SupportRegion == region).all()
+    return customers
+
+def getCustomerByCountry(country):
+    """Return count of product for specific category"""
+    customers = session.query(CustomerCountry).filter(CustomerCountry.country == country).all()
+    return customers
 
 def getCountries():
     """Return all the categories as objects"""
@@ -21,6 +35,9 @@ def getRegions():
     regions = session.query(CountryItem).group_by(CountryItem.SupportRegion).distinct(CountryItem.SupportRegion).all()
     return regions
 
+def getCountriesByRegion(region):
+    countries = session.query(CountryItem).filter(CountryItem.SupportRegion == region).all()
+    return countries
 
 def countCustomersByRegion(region):
     """Return a count of the number of items in the category"""
@@ -30,7 +47,7 @@ def countCustomersByRegion(region):
 
 def countCustomersByCountry(name):
     """Return a count of the number of items in the category"""
-    count = session.query(CustomerCountry).filter(CustomerCountry.country_code == name).count()
+    count = session.query(CustomerCountry).filter(CustomerCountry.country == name).count()
     return count
 
 

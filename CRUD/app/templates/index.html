@@ -28,9 +28,9 @@
         <h1>{% block page %}{% endblock %}</h1>
     </header>
     <nav><span class="nav">
-        <a href="{{ url_for('products') }}">Products</a>
+        <a href="{{ url_for('customers') }}">Customers</a>
         &nbsp|&nbsp
-        <a href="{{ url_for('categories') }}">Catalog</a>
+        <a href="{{ url_for('regions') }}">Regions</a>
         &nbsp|&nbsp
         <a href="{{ url_for('json_products') }}">JSON Catalog</a>
         {% if session.logged_in %}
