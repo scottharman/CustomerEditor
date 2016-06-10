@@ -31,8 +31,7 @@
         <a href="{{ url_for('customers') }}">Customers</a>
         &nbsp|&nbsp
         <a href="{{ url_for('regions') }}">Regions</a>
-        &nbsp|&nbsp
-        <a href="{{ url_for('json_products') }}">JSON Catalog</a>
+
         {% if session.logged_in %}
         &nbsp|&nbsp
         <a href="{{ url_for('addProduct') }}">Add Product</a>{% endif %}

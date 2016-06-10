@@ -117,35 +117,13 @@ def regions(name=''):
                            customers=customerItems)
 
 
-@app.route('/catalog.json')
-def json_products():
-    categories = access.getCategories()
-    for category in categories:
-        category.Items = access.getProductCategory(category.category_id)
-        for product in category.Items:
-            product.category_name = access.getCategory(product.category_id)
-    return jsonify(Category=[i.serialize for i in categories])
-
-
-@app.route('/catalog/<path:name>/items/json')
-def category_json(name):
-    productItems = []
-    categories = access.getCategories()
-    categories = access.getCategoryByName(name)
-    for category in categories:
-        category.Items = access.getProductCategory(category.category_id)
-        for product in category.Items:
-            product.category_name = access.getCategory(product.category_id)
-    return jsonify(Category=[i.serialize for i in categories])
-
-
-@app.route('/catalog/<path:name>/')
-def getProduct(name):
-    product = access.getProductByName(name)
-    if product.product_image:
-        product.product_url = 'uploads/' + product.product_image
-    product.category = access.getCategory(product.category_id)
-    return render_template('product.html', product=product)
+@app.route('/customers/<path:name>/')
+def getCustomer(name):
+    customer = access.getCustomerByName(name)
+    if customer.customer_image:
+        customer.customer_url = 'uploads/' + customer.customer_image
+    customer.country = access.getCountry(customer.country_code)
+    return render_template('customer.html', customer=customer)
 
 
 @app.route('/catalog/<path:name>/edit/', methods=['GET', 'POST'])
@@ -192,7 +170,7 @@ def deleteProduct(name):
             return render_template('deleteProduct.html', product=product)
     else:
         flash('No permission to delete %s' % login_session['username'])
-        return redirect(url_for('products'))
+        return redirect(url_for('customers'))
 
 
 @app.route('/catalog/<path:name>/json')
@@ -273,7 +251,7 @@ def showLogin():
             login_session['email'] = request.form['username']
             login_session['logged_in'] = 'true'
             login_session['local'] = 'true'
-            return redirect(url_for('products'))
+            return redirect(url_for('customers'))
         else:
             flash(u'Login as %s failed - please check and try again' % request.form['username'])  # noqa
             return render_template('login.html', STATE=state)
@@ -294,7 +272,7 @@ def register():
         login_session['logged_in'] = 'true'
         login_session['local'] = 'true'
         flash('User %s successfully registered' % request.form['username'])
-        return redirect(url_for('products'))
+        return redirect(url_for('customers'))
     else:
         return render_template('register.html')
 
@@ -394,7 +372,7 @@ def gdisconnect():
         del login_session['logged_in']
         del login_session['local']
         flash('Successfully Disconnected')
-        return redirect(url_for('products'))
+        return redirect(url_for('customers'))
     else:
         """Remove Gplus login"""
         access_token = login_session['access_token']
@@ -419,7 +397,7 @@ def gdisconnect():
             del login_session['picture']
             del login_session['logged_in']
             flash('Successfully Disconnected')
-            return redirect(url_for('products'))
+            return redirect(url_for('customers'))
         else:
             del login_session['access_token']
             del login_session['gplus_id']
@@ -428,4 +406,4 @@ def gdisconnect():
             del login_session['picture']
             del login_session['logged_in']
             flash('Error occurred with Disconnection')
-            return redirect(url_for('products'))
+            return redirect(url_for('customers'))
